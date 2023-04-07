@@ -1,17 +1,11 @@
 import { defineConfig } from 'sanity'
 import { deskTool } from 'sanity/desk'
-import { visionTool } from '@sanity/vision'
 import { dataset, projectId } from '@/lib/sanity.client'
 import { schemaTypes } from './schemas'
 import { mySanityTheme } from './theme'
 import Logo from './components/Logo'
 import StudioNavbar from './components/StudioNavbar'
 import { getDefaultDocumentNode } from './structure'
-import {
-  RevalidateDocumentAction,
-  PublishAndRevalidateAction,
-  UnpublishAndRevalidateAction,
-} from './actions'
 
 export default defineConfig({
   basePath: '/studio',
@@ -23,24 +17,23 @@ export default defineConfig({
     deskTool({
       defaultDocumentNode: getDefaultDocumentNode,
     }),
-    visionTool(),
   ],
-  document: {
-    // @ts-ignore
-    actions: (prev) => {
-      const newActions = prev.map((originalAction) => {
-        if (originalAction.action === 'publish') {
-          return PublishAndRevalidateAction(originalAction)
-        }
-        if (originalAction.action === 'unpublish') {
-          return UnpublishAndRevalidateAction(originalAction)
-        }
-        return originalAction
-      })
+  // document: {
+  //   // @ts-ignore
+  //   actions: (prev) => {
+  //     const newActions = prev.map((originalAction) => {
+  //       if (originalAction.action === 'publish') {
+  //         return PublishAndRevalidateAction(originalAction)
+  //       }
+  //       if (originalAction.action === 'unpublish') {
+  //         return UnpublishAndRevalidateAction(originalAction)
+  //       }
+  //       return originalAction
+  //     })
 
-      return [...newActions, RevalidateDocumentAction]
-    },
-  },
+  //     return [...newActions, RevalidateDocumentAction]
+  //   },
+  // },
   schema: {
     types: schemaTypes,
   },
